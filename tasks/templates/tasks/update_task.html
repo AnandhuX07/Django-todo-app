@@ -1,0 +1,60 @@
+{% extends 'tasks/basepage.html' %}
+{% block title %}Update Task{% endblock %}
+
+{% block content %}
+<h1>Update Task</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Task Name -->
+    <label>Task Name</label>
+    <input type="text" name="name" value="{{ task.name }}" required>
+
+    <!-- Description -->
+    <label>Description</label>
+    <textarea name="description">{{ task.description }}</textarea>
+
+    <!-- Priority -->
+    <label>Priority</label>
+    <select name="priority">
+        <option value="Low" {% if task.priority == "Low" %}selected{% endif %}>Low</option>
+        <option value="Medium" {% if task.priority == "Medium" %}selected{% endif %}>Medium</option>
+        <option value="High" {% if task.priority == "High" %}selected{% endif %}>High</option>
+    </select>
+
+    <!-- Due Date -->
+    <label>Due Date</label>
+    <input
+        type="datetime-local"
+        name="due_date"
+        value="{{ task.due_date|date:'Y-m-d\\TH:i' }}"
+    >
+
+    <!-- Status -->
+    <label>Status</label>
+    <select name="status">
+        <option value="Pending" {% if task.status == "Pending" %}selected{% endif %}>Pending</option>
+        <option value="In Progress" {% if task.status == "In Progress" %}selected{% endif %}>In Progress</option>
+        <option value="Done" {% if task.status == "Done" %}selected{% endif %}>Done</option>
+    </select>
+
+    <!-- Is Completed -->
+    <label style="display:flex; align-items:center; width: 17%;">
+        Mark as completed
+        <input
+            type="checkbox"
+            name="is_completed"
+            {% if task.is_completed %}checked{% endif %}
+        >
+    </label>
+
+    <br>
+
+    <!-- Buttons -->
+    <button class="btn btn-primary">Update</button>
+    <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}
+

@@ -1,0 +1,42 @@
+{% extends 'tasks/basepage.html' %}
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<h1>My Tasks</h1>
+
+<a href="{% url 'create_task' %}" class="btn btn-primary">+ Create Task</a>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Priority</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Is completed</th>
+        <th>Due Date</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.name }}</td>
+        <td>{{ task.priority }}</td>
+        <td>{{task.description}}</td>
+        <td>{{ task.status }}</td>
+        <td>{{task.is_completed}}</td>
+        <td>{{ task.due_date }}</td>
+        <td>
+            <a href="{% url 'update_task' task.id %}" class="btn btn-warning">Edit</a>
+
+            <form method="post" action="{% url 'delete_task' task.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No tasks available</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'tasks/basepage.html' %}
+{% block title %}Create Task{% endblock %}
+
+{% block content %}
+<h1>Create Task</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Task Name -->
+    <label>Task Name</label>
+    <input type="text" name="name" required>
+
+    <!-- Description -->
+    <label>Description</label>
+    <textarea name="description" placeholder="Task description"></textarea>
+
+    <!-- Priority -->
+    <label>Priority</label>
+    <select name="priority">
+        <option value="Low">Low</option>
+        <option value="Medium" selected>Medium</option>
+        <option value="High">High</option>
+    </select>
+
+    <!-- Due Date -->
+    <label>Due Date</label>
+    <input type="datetime-local" name="due_date">
+
+    <!-- Status -->
+    <label>Status</label>
+    <select name="status">
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Done">Done</option>
+    </select>
+
+    <!-- Is Completed -->
+    <label style="display:flex; align-items:center; width: 20%;">
+        Mark as Completed
+        <input type="checkbox" name="is_completed">
+    </label>
+
+    <br>
+
+    <!-- Buttons -->
+    <button class="btn btn-primary">Create Task</button>
+    <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}
